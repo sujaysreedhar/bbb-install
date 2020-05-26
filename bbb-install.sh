@@ -671,10 +671,10 @@ install_greenlight(){
   fi
 
   # This will trigger the download of Greenlight docker image (if needed)
-  SECRET_KEY_BASE=$(docker run --rm bigbluebutton/greenlight:v2 bundle exec rake secret)
+  SECRET_KEY_BASE=$(docker run --rm sujaysreedhar/glcustom:v2 bundle exec rake secret)
 
   if [ ! -f ~/greenlight/.env ]; then
-    docker run --rm bigbluebutton/greenlight:v2 cat ./sample.env > ~/greenlight/.env
+    docker run --rm sujaysreedhar/glcustom:v2 cat ./sample.env > ~/greenlight/.env
   fi
 
   BIGBLUEBUTTON_URL=$(cat $SERVLET_DIR/WEB-INF/classes/bigbluebutton.properties | grep -v '#' | sed -n '/^bigbluebutton.web.serverURL/{s/.*=//;p}')/bigbluebutton/
@@ -690,7 +690,7 @@ install_greenlight(){
   # need_pkg bbb-webhooks
 
   if [ ! -f /etc/bigbluebutton/nginx/greenlight.nginx ]; then
-    docker run --rm bigbluebutton/greenlight:v2 cat ./greenlight.nginx | tee /etc/bigbluebutton/nginx/greenlight.nginx
+    docker run --rm sujaysreedhar/glcustom:v2 cat ./greenlight.nginx | tee /etc/bigbluebutton/nginx/greenlight.nginx
     cat > /etc/bigbluebutton/nginx/greenlight-redirect.nginx << HERE
 location = / {
   return 307 /b;
@@ -704,7 +704,7 @@ HERE
   fi
 
   if [ ! -f ~/greenlight/docker-compose.yml ]; then
-    docker run --rm bigbluebutton/greenlight:v2 cat ./docker-compose.yml > ~/greenlight/docker-compose.yml
+    docker run --rm sujaysreedhar/glcustom:v2 cat ./docker-compose.yml > ~/greenlight/docker-compose.yml
   fi
 
   # change the default passwords
